@@ -1,5 +1,5 @@
 #Active Record Lite
-[![Screenshot](/doc/screenshot.png)](//github.com/phillipspc/ActiveRecordLite/)
+[![Screenshot](/doc/screenshot_new.png)](//github.com/phillipspc/ActiveRecordLite/)
 Active Record Lite is a metaprogramming project intended to replicate a small portion of the functionality of Active Record. The goal was to better understand how Active Record works, particularly in regard to translating associations into SQL queries, by programming them myself.
 
 ## Features
