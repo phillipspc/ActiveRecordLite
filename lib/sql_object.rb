@@ -14,6 +14,7 @@ class SQLObject
     @table_name = table_name
   end
 
+
   def self.columns
     return @columns if @columns
     table = DBConnection.execute2(<<-SQL)
@@ -32,10 +33,6 @@ class SQLObject
     @column_names = self.class.columns.join(", ")
   end
 
-  def question_marks
-    n = attribute_values.count
-    (['?'] * n).join(", ")
-  end
 
   def self.finalize!
     columns.each do |column|
@@ -44,7 +41,6 @@ class SQLObject
         attributes[column] = input
       end
     end
-
   end
 
 
@@ -62,6 +58,7 @@ class SQLObject
     results.map { |result| self.new(result)}
   end
 
+
   def self.find(id)
     results = DBConnection.execute(<<-SQL, id)
     SELECT
@@ -73,6 +70,7 @@ class SQLObject
     SQL
     parse_all(results).first
   end
+
 
   def initialize(params = {})
     attr_names = []
@@ -91,12 +89,19 @@ class SQLObject
     end
   end
 
+
   def attributes
     @attributes ||= {}
   end
 
   def attribute_values
     @attributes.values
+  end
+
+
+  def question_marks
+    n = attribute_values.count
+    (['?'] * n).join(", ")
   end
 
   def insert
@@ -110,6 +115,7 @@ class SQLObject
     attributes[:id] = DBConnection.last_insert_row_id
   end
 
+
   def update
     set = self.class.columns.map {|column| "#{column} = ?"}.join(", ")
 
@@ -121,7 +127,6 @@ class SQLObject
     WHERE
       id = ?
     SQL
-
   end
 
   def save
